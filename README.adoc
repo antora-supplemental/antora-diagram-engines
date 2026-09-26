@@ -1,5 +1,5 @@
 = antora-diagram-engines
-:description: Monorepo of selectable Asciidoctor/Antora diagram extensions — Mermaid client (CDN-first), diagram-zoom, optional bundle.
+:description: Monorepo of selectable Asciidoctor/Antora diagram extensions — Mermaid client (CDN-first), diagram lightbox, optional bundle.
 :page-orig-author: Ryan Johnson
 :page-last-author: Cursor agent on behalf of Ryan Johnson
 :page-last-edited: 2026-09-25
@@ -16,9 +16,9 @@ One repo, **multiple independently require-able packages**. Antora authors pick 
 | Asciidoctor: Mermaid → client host markup (source in HTML). Antora: register + inject `site-mermaid.js/css`. **CDN default** for the Mermaid runtime.
 | `…/mermaid-client/antora` (+ optional `…/mermaid-client` under `asciidoc.extensions`)
 
-| `@antora-supplemental/diagram-zoom`
+| `@antora-supplemental/diagram-lightbox`
 | Antora: inject zoom/lightbox JS+CSS (baked SVG + client Mermaid hosts).
-| `…/diagram-zoom`
+| `…/diagram-lightbox`
 
 | `@antora-supplemental/diagram-engines`
 | Meta bundle: Mermaid client + zoom with common defaults (CDN).
@@ -40,7 +40,7 @@ Until packages are on npm:
 [source,bash]
 ----
 pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/mermaid-client
-pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-zoom
+pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-lightbox
 # optional bundle:
 # pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-engines
 ----
@@ -59,7 +59,7 @@ antora:
       # Air-gapped:
       # cdn: false
       # localScript: 'js/vendor/mermaid.min.js'   # under uiRootPath
-    - require: '@antora-supplemental/diagram-zoom'
+    - require: '@antora-supplemental/diagram-lightbox'
 asciidoc:
   extensions:
     - asciidoctor-kroki          # PlantUML / other bake formats
@@ -78,10 +78,10 @@ Theme partials (Valentus / supplemental-ui):: include once assets are injected o
 [source,html]
 ----
 {{> mermaid-client-styles}}
-{{> diagram-zoom-styles}}
+{{> diagram-lightbox-styles}}
 …
 {{> mermaid-client-scripts}}
-{{> diagram-zoom-scripts}}
+{{> diagram-lightbox-scripts}}
 ----
 
 == Playbook — bundle meta
@@ -116,7 +116,7 @@ Runtime config is also exposed as `window.__ADT_MERMAID__` / `#adt-mermaid-confi
 
 * **Mermaid (client, maintained path):** use `[source,mermaid]` (or `[.mermaid-client]\n[source,text]`) with `mermaid-client-mode: client`. Source stays in HTML; SVG appears after JS; light/dark re-renders via Mermaid theme (no per-diagram SVG forks).
 * **PlantUML (bake via Kroki):** keep `asciidoctor-kroki` + `kroki-fetch-diagram: true`. Baked figures do **not** auto-retheme like Mermaid; use Themed SVG only if you still run that unmaintained pipeline.
-* **Zoom / lightbox:** enable `@antora-supplemental/diagram-zoom` (or the bundle). Attaches to `.imageblock` and client Mermaid hosts — no AsciiDoc role required.
+* **Zoom / lightbox:** enable `@antora-supplemental/diagram-lightbox` (or the bundle). Attaches to `.imageblock` and client Mermaid hosts — no AsciiDoc role required.
 
 == Disable Kroki for Mermaid only
 
@@ -139,5 +139,5 @@ packages/
 == Related
 
 * Org docs: `diagram-engines` page on antora-supplemental/docs
-* Chassis source: `antora-ui-chassis/packages/diagram-zoom`
+* Chassis source: `antora-ui-chassis/packages/diagram-lightbox`
 * Hub reference: DevCentr `supplemental-ui/js/site-mermaid.js`

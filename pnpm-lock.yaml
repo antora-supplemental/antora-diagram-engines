@@ -13,7 +13,7 @@ importers:
       '@antora-supplemental/diagram-engines-shared':
         specifier: workspace:*
         version: link:../shared
-      '@antora-supplemental/diagram-zoom':
+      '@antora-supplemental/diagram-lightbox':
         specifier: workspace:*
         version: link:../diagram-zoom
       '@antora-supplemental/mermaid-client':
@@ -23,7 +23,7 @@ importers:
         specifier: '>=3.1.0'
         version: 3.2.0
 
-  packages/diagram-zoom:
+  packages/diagram-lightbox:
     dependencies:
       '@antora-supplemental/diagram-engines-shared':
         specifier: workspace:*

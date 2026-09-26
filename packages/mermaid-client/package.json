@@ -44,6 +44,6 @@
     }
   },
   "dependencies": {
-    "@antora-supplemental/diagram-engines-shared": "workspace:*"
+    "@antora-supplemental/diagram-engines-shared": "file:../shared"
   }
 }

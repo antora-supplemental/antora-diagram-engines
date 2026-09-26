@@ -1,17 +1,17 @@
 'use strict'
 
 /**
- * Antora extension: inject diagram-zoom / lightbox JS+CSS into the UI catalog.
+ * Antora extension: inject diagram lightbox (zoom/pan) JS+CSS into the UI catalog.
  *
  * Playbook:
  *   antora:
  *     extensions:
- *       - require: '@antora-supplemental/diagram-zoom'
+ *       - require: '@antora-supplemental/diagram-lightbox'
  *         # injectAssets: true
  *
  * Include partials in the theme:
- *   {{> diagram-zoom-styles}}
- *   {{> diagram-zoom-scripts}}  (after SoftNav)
+ *   {{> diagram-lightbox-styles}}
+ *   {{> diagram-lightbox-scripts}}  (after SoftNav)
  */
 
 const path = require('node:path')
@@ -21,13 +21,13 @@ const {
   ensureAttributes,
 } = require('@antora-supplemental/diagram-engines-shared')
 
-const PACKAGE = '@antora-supplemental/diagram-zoom'
+const PACKAGE = '@antora-supplemental/diagram-lightbox'
 const UI_ROOT = path.join(__dirname, '..', 'ui')
 const ASSETS = [
-  { rel: 'js/site-diagram-zoom.js', type: 'asset' },
-  { rel: 'css/site-diagram-zoom.css', type: 'asset' },
-  { rel: 'partials/diagram-zoom-styles.hbs', type: 'partial' },
-  { rel: 'partials/diagram-zoom-scripts.hbs', type: 'partial' },
+  { rel: 'js/site-diagram-lightbox.js', type: 'asset' },
+  { rel: 'css/site-diagram-lightbox.css', type: 'asset' },
+  { rel: 'partials/diagram-lightbox-styles.hbs', type: 'partial' },
+  { rel: 'partials/diagram-lightbox-scripts.hbs', type: 'partial' },
 ]
 
 function register (context = {}) {
@@ -36,9 +36,9 @@ function register (context = {}) {
   const logger = this.getLogger(PACKAGE)
 
   this.on('playbookBuilt', ({ playbook }) => {
-    ensureAttributes(playbook, { 'diagram-zoom': '' })
+    ensureAttributes(playbook, { 'diagram-lightbox': '' })
     const keys = playbook.site.keys || (playbook.site.keys = {})
-    keys.diagram_zoom = 'true'
+    keys.diagram_lightbox = 'true'
   })
 
   if (injectAssets) {

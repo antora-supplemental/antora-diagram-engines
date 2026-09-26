@@ -1,5 +1,5 @@
 {
-  "name": "@antora-supplemental/diagram-zoom",
+  "name": "@antora-supplemental/diagram-lightbox",
   "version": "0.1.0",
   "description": "Antora extension: diagram zoom / pan / lightbox UI (baked SVG + client Mermaid)",
   "main": "lib/antora.js",
@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "test": "node --test test/*.test.js",
-    "check": "node --check lib/antora.js && node --check ui/js/site-diagram-zoom.js"
+    "check": "node --check lib/antora.js && node --check ui/js/site-diagram-lightbox.js"
   },
   "license": "MIT",
   "keywords": [
@@ -24,11 +24,11 @@
     "zoom",
     "lightbox"
   ],
-  "homepage": "https://github.com/antora-supplemental/antora-diagram-engines/tree/main/packages/diagram-zoom",
+  "homepage": "https://github.com/antora-supplemental/antora-diagram-engines/tree/main/packages/diagram-lightbox",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antora-supplemental/antora-diagram-engines.git",
-    "directory": "packages/diagram-zoom"
+    "directory": "packages/diagram-lightbox"
   },
   "engines": {
     "node": ">=18"
@@ -42,6 +42,6 @@
     }
   },
   "dependencies": {
-    "@antora-supplemental/diagram-engines-shared": "workspace:*"
+    "@antora-supplemental/diagram-engines-shared": "file:../shared"
   }
 }

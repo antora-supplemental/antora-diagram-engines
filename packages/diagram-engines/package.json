@@ -1,7 +1,7 @@
 {
   "name": "@antora-supplemental/diagram-engines",
   "version": "0.1.0",
-  "description": "Meta Antora extension: wires Mermaid client + diagram-zoom defaults (selectable packages live beside this)",
+  "description": "Meta Antora extension: wires Mermaid client + diagram-lightbox defaults (selectable packages live beside this)",
   "main": "lib/antora.js",
   "exports": {
     ".": "./lib/antora.js",
@@ -42,7 +42,8 @@
   },
   "dependencies": {
     "@antora-supplemental/mermaid-client": "workspace:*",
-    "@antora-supplemental/diagram-zoom": "workspace:*",
+    "@antora-supplemental/diagram-lightbox": "workspace:*",
     "@antora-supplemental/diagram-engines-shared": "workspace:*"
   }
 }
+
