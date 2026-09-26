@@ -1,0 +1,17 @@
+{
+  "name": "@antora-supplemental/diagram-engines-shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared helpers for diagram-engines workspace packages (UI inject, attrs)",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

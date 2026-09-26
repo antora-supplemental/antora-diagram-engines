@@ -1,0 +1,25 @@
+= @antora-supplemental/mermaid-client
+:description: Asciidoctor + Antora Mermaid client-render extension (CDN-first).
+
+See the monorepo root README: link:../../README.adoc[antora-diagram-engines].
+
+== Require
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@antora-supplemental/mermaid-client/antora'
+      # cdn: 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
+      # cdn: false
+      # localScript: 'js/vendor/mermaid.min.js'
+asciidoc:
+  attributes:
+    mermaid-client: ''
+    mermaid-client-mode: client
+----
+
+== Partials
+
+* `{{> mermaid-client-styles}}`
+* `{{> mermaid-client-scripts}}` (includes config + `site-mermaid.js`)

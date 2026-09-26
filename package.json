@@ -1,0 +1,15 @@
+{
+  "name": "antora-diagram-engines",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Monorepo: selectable Antora/Asciidoctor diagram-engine extensions (Mermaid client, diagram-zoom, bundle)",
+  "license": "MIT",
+  "scripts": {
+    "test": "pnpm -r test",
+    "check": "pnpm -r run check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.33.0"
+}

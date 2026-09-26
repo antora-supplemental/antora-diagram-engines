@@ -1,0 +1,49 @@
+{
+  "name": "@antora-supplemental/mermaid-client",
+  "version": "0.1.0",
+  "description": "Asciidoctor + Antora: Mermaid client-render hosts with CDN runtime and light/dark re-theme",
+  "main": "lib/asciidoctor.js",
+  "exports": {
+    ".": "./lib/asciidoctor.js",
+    "./asciidoctor": "./lib/asciidoctor.js",
+    "./antora": "./lib/antora.js"
+  },
+  "files": [
+    "lib/**/*",
+    "ui/**/*",
+    "README.adoc",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "node --check lib/asciidoctor.js && node --check lib/antora.js && node --check ui/js/site-mermaid.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "antora",
+    "asciidoctor",
+    "mermaid",
+    "diagram",
+    "cdn"
+  ],
+  "homepage": "https://github.com/antora-supplemental/antora-diagram-engines/tree/main/packages/mermaid-client",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antora-supplemental/antora-diagram-engines.git",
+    "directory": "packages/mermaid-client"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@antora/site-generator": ">=3.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@antora/site-generator": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@antora-supplemental/diagram-engines-shared": "workspace:*"
+  }
+}

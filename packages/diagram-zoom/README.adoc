@@ -1,0 +1,18 @@
+= @antora-supplemental/diagram-zoom
+:description: Antora extension injecting diagram zoom / lightbox assets.
+
+Vendored from `antora-ui-chassis/packages/diagram-zoom` patterns.
+
+== Require
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@antora-supplemental/diagram-zoom'
+----
+
+== Partials
+
+* `{{> diagram-zoom-styles}}`
+* `{{> diagram-zoom-scripts}}` (load after SoftNav)

@@ -1,0 +1,143 @@
+= antora-diagram-engines
+:description: Monorepo of selectable Asciidoctor/Antora diagram extensions — Mermaid client (CDN-first), diagram-zoom, optional bundle.
+:page-orig-author: Ryan Johnson
+:page-last-author: Cursor agent on behalf of Ryan Johnson
+:page-last-edited: 2026-09-25
+
+One repo, **multiple independently require-able packages**. Antora authors pick which extensions to inject — not a monolith.
+
+== Packages
+
+[cols="2,3,2"]
+|===
+| Package | Role | Playbook require
+
+| `@antora-supplemental/mermaid-client`
+| Asciidoctor: Mermaid → client host markup (source in HTML). Antora: register + inject `site-mermaid.js/css`. **CDN default** for the Mermaid runtime.
+| `…/mermaid-client/antora` (+ optional `…/mermaid-client` under `asciidoc.extensions`)
+
+| `@antora-supplemental/diagram-zoom`
+| Antora: inject zoom/lightbox JS+CSS (baked SVG + client Mermaid hosts).
+| `…/diagram-zoom`
+
+| `@antora-supplemental/diagram-engines`
+| Meta bundle: Mermaid client + zoom with common defaults (CDN).
+| `…/diagram-engines`
+
+| `@antora-supplemental/diagram-engines-shared`
+| Private workspace helpers (not published for direct playbook use).
+| —
+|===
+
+PlantUML (and other Kroki formats):: keep `asciidoctor-kroki` in the playbook. This repo does **not** pretend PlantUML auto-rethemes like Mermaid.
+
+DevCentr Themed SVG / bake pipeline:: remains **live but unmaintained** (see org docs). Do not delete or gut it when adopting client Mermaid.
+
+== Install (git path)
+
+Until packages are on npm:
+
+[source,bash]
+----
+pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/mermaid-client
+pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-zoom
+# optional bundle:
+# pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-engines
+----
+
+Workspace consumers can also open this monorepo and `pnpm i` at the root.
+
+== Playbook — Mermaid + zoom only (recommended selective setup)
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@antora-supplemental/mermaid-client/antora'
+      # CDN is default (pinned jsDelivr Mermaid 11.6.0)
+      # cdn: 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
+      # Air-gapped:
+      # cdn: false
+      # localScript: 'js/vendor/mermaid.min.js'   # under uiRootPath
+    - require: '@antora-supplemental/diagram-zoom'
+asciidoc:
+  extensions:
+    - asciidoctor-kroki          # PlantUML / other bake formats
+    # mermaid-client Asciidoctor is auto-registered by the Antora entry;
+    # listing it here is optional (de-duped):
+    # - '@antora-supplemental/mermaid-client'
+  attributes:
+    mermaid-client: ''
+    mermaid-client-mode: client  # client | kroki | off
+    kroki-fetch-diagram: true
+    # kroki-server-url: http://127.0.0.1:8000
+----
+
+Theme partials (Valentus / supplemental-ui):: include once assets are injected or copied:
+
+[source,html]
+----
+{{> mermaid-client-styles}}
+{{> diagram-zoom-styles}}
+…
+{{> mermaid-client-scripts}}
+{{> diagram-zoom-scripts}}
+----
+
+== Playbook — bundle meta
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@antora-supplemental/diagram-engines'
+      # mermaid: true
+      # zoom: true
+      # cdn: false
+      # localScript: 'js/vendor/mermaid.min.js'
+----
+
+== CDN vs local (Mermaid runtime)
+
+[cols="1,3"]
+|===
+| Mode | How
+
+| **CDN (default)**
+| `site-mermaid.js` loads a **pinned** jsDelivr URL (`mermaid@11.6.0`) so browsers can cache across sites. Override with playbook `cdn: 'https://…/mermaid.min.js'`.
+
+| **Local / air-gap**
+| `cdn: false` + `localScript: 'js/vendor/mermaid.min.js'`. Place `mermaid.min.js` in hub `supplemental-ui/js/vendor/` (or matching uiRootPath). This package does **not** vendor Mermaid by default.
+|===
+
+Runtime config is also exposed as `window.__ADT_MERMAID__` / `#adt-mermaid-config` (injected partial).
+
+== Author how-to (3 bullets)
+
+* **Mermaid (client, maintained path):** use `[source,mermaid]` (or `[.mermaid-client]\n[source,text]`) with `mermaid-client-mode: client`. Source stays in HTML; SVG appears after JS; light/dark re-renders via Mermaid theme (no per-diagram SVG forks).
+* **PlantUML (bake via Kroki):** keep `asciidoctor-kroki` + `kroki-fetch-diagram: true`. Baked figures do **not** auto-retheme like Mermaid; use Themed SVG only if you still run that unmaintained pipeline.
+* **Zoom / lightbox:** enable `@antora-supplemental/diagram-zoom` (or the bundle). Attaches to `.imageblock` and client Mermaid hosts — no AsciiDoc role required.
+
+== Disable Kroki for Mermaid only
+
+When both Kroki and mermaid-client are registered, prefer exclusive client Mermaid:
+
+* Set `mermaid-client-mode: client` (default via Antora entry) so Mermaid listings become client hosts before bake, **or**
+* Author hybrids Kroki will not claim: `[.mermaid-client]` + `[source,text]`, **or**
+* Leave Mermaid to Kroki with `mermaid-client-mode: kroki` / `off` if you want bake.
+
+== Layout
+
+----
+packages/
+  shared/            # private helpers
+  mermaid-client/    # Asciidoctor + Antora + ui/
+  diagram-zoom/      # Antora + ui/ (chassis patterns)
+  diagram-engines/   # meta bundle
+----
+
+== Related
+
+* Org docs: `diagram-engines` page on antora-supplemental/docs
+* Chassis source: `antora-ui-chassis/packages/diagram-zoom`
+* Hub reference: DevCentr `supplemental-ui/js/site-mermaid.js`

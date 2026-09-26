@@ -1,0 +1,120 @@
+'use strict'
+
+const fs = require('node:fs')
+const path = require('node:path')
+
+function truthy (v, defaultValue = true) {
+  if (v == null) return defaultValue
+  if (typeof v === 'boolean') return v
+  const s = String(v).trim().toLowerCase()
+  if (s === '' || s === 'true' || s === '1' || s === 'yes') return true
+  if (s === 'false' || s === '0' || s === 'no' || s === 'off') return false
+  return Boolean(s)
+}
+
+function docAttr (doc, name) {
+  if (!doc || typeof doc.getAttribute !== 'function') return ''
+  const v = doc.getAttribute(name)
+  if (v == null || v === false) return ''
+  return String(v).trim()
+}
+
+function escapeHtml (text) {
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function ensureAsciidocExtension (playbook, resolvedPath, aliases = [], logger = console) {
+  const asciidoc = playbook.asciidoc || (playbook.asciidoc = {})
+  const extensions = asciidoc.extensions || (asciidoc.extensions = [])
+
+  const matches = (entry) => {
+    if (entry === resolvedPath) return true
+    const req = typeof entry === 'string' ? entry : entry && (entry.require || entry)
+    if (typeof req !== 'string') return false
+    if (aliases.includes(req)) return true
+    try {
+      return require.resolve(req) === resolvedPath
+    } catch (_) {
+      return aliases.some((a) => req === a || req.endsWith(a) || req.includes(a))
+    }
+  }
+
+  if (extensions.some(matches)) return false
+  extensions.push(resolvedPath)
+  if (logger && logger.info) logger.info(`Registered Asciidoctor extension ${aliases[0] || resolvedPath}`)
+  return true
+}
+
+function ensureAttributes (playbook, defaults = {}) {
+  const asciidoc = playbook.asciidoc || (playbook.asciidoc = {})
+  const attributes = asciidoc.attributes || (asciidoc.attributes = {})
+  for (const [key, value] of Object.entries(defaults)) {
+    if (!Object.prototype.hasOwnProperty.call(attributes, key)) {
+      attributes[key] = value
+    }
+  }
+  return attributes
+}
+
+function normalizeRel (rel) {
+  return String(rel).replace(/\\/g, '/')
+}
+
+function addUiAssets (uiCatalog, uiRoot, assets, logger = console) {
+  let added = 0
+  for (const asset of assets) {
+    const abs = path.join(uiRoot, asset.rel)
+    if (!fs.existsSync(abs)) {
+      if (logger.warn) logger.warn(`Missing UI asset: ${asset.rel}`)
+      continue
+    }
+    const contents = fs.readFileSync(abs)
+    const type = asset.type || (asset.rel.startsWith('partials/') ? 'partial' : 'asset')
+    const rel = normalizeRel(asset.rel)
+    try {
+      uiCatalog.addFile({
+        contents,
+        type,
+        path: rel,
+        stat: fs.statSync(abs),
+      })
+      added += 1
+    } catch (err) {
+      try {
+        const basename = path.basename(rel)
+        const dirname = path.dirname(rel)
+        const outPath =
+          type === 'partial'
+            ? undefined
+            : path.posix.join('_', dirname === '.' ? '' : dirname, basename).replace(/\/+/g, '/')
+        uiCatalog.addFile({
+          contents,
+          type,
+          path: rel,
+          ...(outPath ? { out: { path: outPath } } : {}),
+        })
+        added += 1
+      } catch (err2) {
+        if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${err2.message || err.message}`)
+      }
+    }
+  }
+  if (added && logger.info) {
+    logger.info(`Injected ${added} UI asset(s) from ${path.basename(path.dirname(uiRoot)) || 'package'}`)
+  }
+  return added
+}
+
+module.exports = {
+  truthy,
+  docAttr,
+  escapeHtml,
+  ensureAsciidocExtension,
+  ensureAttributes,
+  addUiAssets,
+  normalizeRel,
+}

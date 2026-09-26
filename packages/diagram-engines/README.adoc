@@ -1,0 +1,13 @@
+= @antora-supplemental/diagram-engines
+:description: Meta Antora extension bundling Mermaid client + diagram-zoom.
+
+For selective installs prefer `@antora-supplemental/mermaid-client` and `@antora-supplemental/diagram-zoom` directly.
+
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: '@antora-supplemental/diagram-engines'
+      mermaid: true
+      zoom: true
+----

@@ -1,0 +1,26 @@
+/* Mermaid diagrams in Antora content */
+.adt-mermaid,
+div.mermaid {
+  margin: 1.25rem 0 1.75rem;
+  padding: 1rem 0.75rem;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--adt-accent, #178f80) 22%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--adt-accent, #178f80) 6%, transparent);
+}
+
+html.dark-theme .adt-mermaid,
+html.dark-theme div.mermaid,
+html[data-theme='dark'] .adt-mermaid,
+html[data-theme='dark'] div.mermaid {
+  background: color-mix(in srgb, var(--adt-accent, #2dd4bf) 10%, transparent);
+  border-color: color-mix(in srgb, var(--adt-accent, #2dd4bf) 28%, transparent);
+}
+
+.adt-mermaid svg,
+div.mermaid svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}

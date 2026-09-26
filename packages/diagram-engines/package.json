@@ -1,0 +1,48 @@
+{
+  "name": "@antora-supplemental/diagram-engines",
+  "version": "0.1.0",
+  "description": "Meta Antora extension: wires Mermaid client + diagram-zoom defaults (selectable packages live beside this)",
+  "main": "lib/antora.js",
+  "exports": {
+    ".": "./lib/antora.js",
+    "./antora": "./lib/antora.js"
+  },
+  "files": [
+    "lib/**/*",
+    "README.adoc",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "check": "node --check lib/antora.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "antora",
+    "mermaid",
+    "diagram",
+    "bundle"
+  ],
+  "homepage": "https://github.com/antora-supplemental/antora-diagram-engines/tree/main/packages/diagram-engines",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antora-supplemental/antora-diagram-engines.git",
+    "directory": "packages/diagram-engines"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "@antora/site-generator": ">=3.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@antora/site-generator": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@antora-supplemental/mermaid-client": "workspace:*",
+    "@antora-supplemental/diagram-zoom": "workspace:*",
+    "@antora-supplemental/diagram-engines-shared": "workspace:*"
+  }
+}

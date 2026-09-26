@@ -1,0 +1,12 @@
+= Changelog
+
+== 0.1.0 — 2026-09-25
+
+* Initial monorepo release under `antora-supplemental/antora-diagram-engines`.
+* Packages:
+** `@antora-supplemental/mermaid-client` — Asciidoctor block semantics + Antora UI inject; Mermaid **CDN-first** (pinned jsDelivr), optional local script for air-gap; light/dark re-render (no dual SVG forks).
+** `@antora-supplemental/diagram-zoom` — Antora UI inject for zoom/lightbox (vendored from antora-ui-chassis `diagram-zoom`).
+** `@antora-supplemental/diagram-engines` — optional meta bundle wiring Mermaid client + zoom defaults.
+** `@antora-supplemental/diagram-engines-shared` — private workspace helpers.
+* PlantUML and other Kroki formats stay on `asciidoctor-kroki` (documented; not auto-rethemed like Mermaid).
+* DevCentr Themed SVG / bake pipeline documented as **live but unmaintained**.
