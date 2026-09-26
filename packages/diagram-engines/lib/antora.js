@@ -25,8 +25,8 @@ const lightboxAntora = require('@antora-supplemental/diagram-lightbox')
 
 const PACKAGE = '@antora-supplemental/diagram-engines'
 
-function register (context) {
-  const config = (context && context.config) || {}
+function register ({ config }) {
+  config = config || {}
   const logger = this.getLogger(PACKAGE)
   const enableMermaid = truthy(config.mermaid, true)
   const enableLightbox = Object.prototype.hasOwnProperty.call(config, 'lightbox')

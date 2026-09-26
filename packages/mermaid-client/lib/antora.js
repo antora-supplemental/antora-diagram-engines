@@ -62,8 +62,8 @@ function buildConfigPartial (cdn) {
   )
 }
 
-function register (context) {
-  const config = (context && context.config) || {}
+function register ({ config }) {
+  config = config || {}
   const injectAssets = truthy(config.injectAssets, true)
   const registerAsciidoctor = truthy(config.registerAsciidoctor, true)
   const cdn = resolveCdnConfig(config)

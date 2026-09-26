@@ -2,7 +2,7 @@
 
 == Unreleased
 
-* Fix Antora `injectAssets` being ignored: `register(context = {})` made `Function.length === 0`, so the site-generator called `register` with no config. Drop the default param (`register(context)`) in `mermaid-client`, `diagram-lightbox`, and the `diagram-engines` bundle so Antora passes `{ config }`.
+* Fix Antora `injectAssets` being ignored: `register(context = {})` made `Function.length === 0`, so the site-generator called `register` with no config. Use `register({ config })` (destructure, no default on the whole param) in `mermaid-client`, `diagram-lightbox`, and the `diagram-engines` bundle — keeps `length === 1` and avoids Antora's named-param path that would pass the generator as arg1 without `.call(this)`.
 * Quiet `Duplicate UI file` in shared `addUiAssets` (and mermaid-client config partial) to debug skip instead of WARN when a hub already mirrors the same assets.
 
 == 0.1.0 — 2026-09-25
