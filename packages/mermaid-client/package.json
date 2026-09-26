@@ -44,6 +44,6 @@
     }
   },
   "dependencies": {
-    "@antora-supplemental/diagram-engines-shared": "file:../shared"
+    "@antora-supplemental/diagram-engines-shared": "github:antora-supplemental/antora-diagram-engines#main&path:packages/shared"
   }
 }

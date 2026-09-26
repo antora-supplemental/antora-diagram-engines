@@ -2,13 +2,12 @@
 
 == 0.1.0 — 2026-09-25
 
-* Renamed package `@antora-supplemental/diagram-zoom` → `@antora-supplemental/diagram-lightbox` (UX: lightbox). Chrome CSS still uses `adt-diagram-zoom` / opt-out `no-diagram-zoom`.
-* Package deps use `file:../…` so git-path consumers resolve shared helpers outside the monorepo workspace.
 * Initial monorepo release under `antora-supplemental/antora-diagram-engines`.
 * Packages:
 ** `@antora-supplemental/mermaid-client` — Asciidoctor block semantics + Antora UI inject; Mermaid **CDN-first** (pinned jsDelivr), optional local script for air-gap; light/dark re-render (no dual SVG forks).
-** `@antora-supplemental/diagram-lightbox` — Antora UI inject for zoom/lightbox (vendored from antora-ui-chassis `diagram-zoom`).
-** `@antora-supplemental/diagram-engines` — optional meta bundle wiring Mermaid client + zoom defaults.
+** `@antora-supplemental/diagram-lightbox` — Antora UI inject for zoom/lightbox (vendored from antora-ui-chassis `diagram-zoom`; product name lightbox).
+** `@antora-supplemental/diagram-engines` — optional meta bundle wiring Mermaid client + lightbox defaults.
 ** `@antora-supplemental/diagram-engines-shared` — private workspace helpers.
+* Renamed package `@antora-supplemental/diagram-zoom` → `@antora-supplemental/diagram-lightbox`. Public require/partials/assets use lightbox; chrome CSS classes keep `adt-diagram-zoom` / opt-out `no-diagram-zoom` for pragmatism.
 * PlantUML and other Kroki formats stay on `asciidoctor-kroki` (documented; not auto-rethemed like Mermaid).
 * DevCentr Themed SVG / bake pipeline documented as **live but unmaintained**.

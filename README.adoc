@@ -21,7 +21,7 @@ One repo, **multiple independently require-able packages**. Antora authors pick 
 | `…/diagram-lightbox`
 
 | `@antora-supplemental/diagram-engines`
-| Meta bundle: Mermaid client + zoom with common defaults (CDN).
+| Meta bundle: Mermaid client + lightbox with common defaults (CDN).
 | `…/diagram-engines`
 
 | `@antora-supplemental/diagram-engines-shared`
@@ -46,6 +46,8 @@ pnpm add -D github:antora-supplemental/antora-diagram-engines#main&path:packages
 ----
 
 Workspace consumers can also open this monorepo and `pnpm i` at the root.
+
+Internal `diagram-engines-shared` is resolved via the same git+path URL (not `workspace:*` / `file:../`), so hub installs from GitHub work in CI.
 
 == Playbook — Mermaid + zoom only (recommended selective setup)
 
@@ -92,7 +94,7 @@ antora:
   extensions:
     - require: '@antora-supplemental/diagram-engines'
       # mermaid: true
-      # zoom: true
+      # lightbox: true
       # cdn: false
       # localScript: 'js/vendor/mermaid.min.js'
 ----
@@ -132,7 +134,7 @@ When both Kroki and mermaid-client are registered, prefer exclusive client Merma
 packages/
   shared/            # private helpers
   mermaid-client/    # Asciidoctor + Antora + ui/
-  diagram-zoom/      # Antora + ui/ (chassis patterns)
+  diagram-lightbox/  # Antora + ui/ (product name; chassis folder still diagram-zoom)
   diagram-engines/   # meta bundle
 ----
 

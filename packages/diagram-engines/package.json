@@ -41,9 +41,8 @@
     }
   },
   "dependencies": {
-    "@antora-supplemental/mermaid-client": "workspace:*",
-    "@antora-supplemental/diagram-lightbox": "workspace:*",
-    "@antora-supplemental/diagram-engines-shared": "workspace:*"
+    "@antora-supplemental/mermaid-client": "github:antora-supplemental/antora-diagram-engines#main&path:packages/mermaid-client",
+    "@antora-supplemental/diagram-lightbox": "github:antora-supplemental/antora-diagram-engines#main&path:packages/diagram-lightbox",
+    "@antora-supplemental/diagram-engines-shared": "github:antora-supplemental/antora-diagram-engines#main&path:packages/shared"
   }
 }
-
