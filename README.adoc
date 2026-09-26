@@ -141,5 +141,5 @@ packages/
 == Related
 
 * Org docs: `diagram-engines` page on antora-supplemental/docs
-* Chassis source: `antora-ui-chassis/packages/diagram-lightbox`
+* Chassis source: `antora-ui-chassis/packages/diagram-zoom` (product name: diagram-lightbox)
 * Hub reference: DevCentr `supplemental-ui/js/site-mermaid.js`
