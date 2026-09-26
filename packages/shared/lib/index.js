@@ -98,7 +98,13 @@ function addUiAssets (uiCatalog, uiRoot, assets, logger = console) {
     } catch (err) {
       const msg = err.message || ''
       if (/duplicate ui file/i.test(msg)) {
-        if (logger.debug) logger.debug(`Skipping duplicate UI asset ${asset.rel}`)
+        // Surface double-registration (e.g. hub supplemental-ui mirror + injectAssets).
+        // Genuine injectAssets:false skips uiLoaded entirely — do not quiet real conflicts.
+        if (logger.warn) {
+          logger.warn(
+            `Duplicate UI asset ${asset.rel} already in catalog (hub supplemental-ui mirror vs extension inject?). Prefer one owner.`
+          )
+        }
         continue
       }
       if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${msg}`)

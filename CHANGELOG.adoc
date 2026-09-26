@@ -1,5 +1,10 @@
 = Changelog
 
+== 2026-09-26 -- Stop quieting duplicate UI inject
+
+* Shared `addUiAssets` (and mermaid-client config partial) again **WARN** on `Duplicate UI file` instead of debug-skip. Hubs should not mirror mermaid/lightbox chrome when extensions inject; use `injectAssets: false` only when the hub intentionally owns the assets.
+* `register({ config })` / `injectAssets: false` behavior unchanged — intentional skip still omits `uiLoaded` inject.
+
 == 2026-09-25 -- mermaid-client-config partial gets stem
 
 * Set `stem` / `basename` when injecting `mermaid-client-config` so `{{> mermaid-client-scripts}}` can include it.
@@ -10,7 +15,7 @@
 == Unreleased
 
 * Fix Antora `injectAssets` being ignored: `register(context = {})` made `Function.length === 0`, so the site-generator called `register` with no config. Use `register({ config })` (destructure, no default on the whole param) in `mermaid-client`, `diagram-lightbox`, and the `diagram-engines` bundle â€” keeps `length === 1` and avoids Antora's named-param path that would pass the generator as arg1 without `.call(this)`.
-* Quiet `Duplicate UI file` in shared `addUiAssets` (and mermaid-client config partial) to debug skip instead of WARN when a hub already mirrors the same assets.
+* (superseded 2026-09-26) Quiet Duplicate UI file to debug — reverted; WARN again so dual-ship is visible.
 
 == 0.1.0 â€” 2026-09-25
 

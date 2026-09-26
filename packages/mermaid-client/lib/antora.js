@@ -119,7 +119,9 @@ function register ({ config }) {
       } catch (err) {
         const msg = err.message || ''
         if (/duplicate ui file/i.test(msg)) {
-          if (logger.debug) logger.debug(`Skipping duplicate mermaid-client-config partial`)
+          logger.warn(
+            `Duplicate mermaid-client-config partial already in catalog (hub supplemental-ui mirror vs extension inject?). Prefer one owner.`
+          )
         } else {
           logger.warn(`Could not add mermaid-client-config partial: ${msg}`)
         }
