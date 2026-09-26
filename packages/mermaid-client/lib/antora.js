@@ -62,8 +62,8 @@ function buildConfigPartial (cdn) {
   )
 }
 
-function register (context = {}) {
-  const config = context.config || {}
+function register (context) {
+  const config = (context && context.config) || {}
   const injectAssets = truthy(config.injectAssets, true)
   const registerAsciidoctor = truthy(config.registerAsciidoctor, true)
   const cdn = resolveCdnConfig(config)
@@ -115,7 +115,12 @@ function register (context = {}) {
           path: 'partials/mermaid-client-config.hbs',
         })
       } catch (err) {
-        logger.warn(`Could not add mermaid-client-config partial: ${err.message}`)
+        const msg = err.message || ''
+        if (/duplicate ui file/i.test(msg)) {
+          if (logger.debug) logger.debug(`Skipping duplicate mermaid-client-config partial`)
+        } else {
+          logger.warn(`Could not add mermaid-client-config partial: ${msg}`)
+        }
       }
     })
   }

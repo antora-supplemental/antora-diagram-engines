@@ -99,7 +99,12 @@ function addUiAssets (uiCatalog, uiRoot, assets, logger = console) {
         })
         added += 1
       } catch (err2) {
-        if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${err2.message || err.message}`)
+        const msg = err2.message || err.message || ''
+        if (/duplicate ui file/i.test(msg)) {
+          if (logger.debug) logger.debug(`Skipping duplicate UI asset ${asset.rel}`)
+          continue
+        }
+        if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${msg}`)
       }
     }
   }

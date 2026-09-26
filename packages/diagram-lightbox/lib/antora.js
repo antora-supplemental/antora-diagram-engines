@@ -30,8 +30,8 @@ const ASSETS = [
   { rel: 'partials/diagram-lightbox-scripts.hbs', type: 'partial' },
 ]
 
-function register (context = {}) {
-  const config = context.config || {}
+function register (context) {
+  const config = (context && context.config) || {}
   const injectAssets = truthy(config.injectAssets, true)
   const logger = this.getLogger(PACKAGE)
 
