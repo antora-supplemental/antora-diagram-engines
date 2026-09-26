@@ -75,37 +75,33 @@ function addUiAssets (uiCatalog, uiRoot, assets, logger = console) {
     const contents = fs.readFileSync(abs)
     const type = asset.type || (asset.rel.startsWith('partials/') ? 'partial' : 'asset')
     const rel = normalizeRel(asset.rel)
+    const basename = path.posix.basename(rel)
+    const stem = basename.replace(/\.[^.]+$/, '')
+    const dirname = path.posix.dirname(rel)
+    // Antora page-composer registers partials by Vinyl `stem`; plain objects need it set.
+    const out =
+      type === 'partial'
+        ? undefined
+        : { path: path.posix.join('_', dirname === '.' ? '' : dirname, basename).replace(/\/+/g, '/') }
+    const file = {
+      contents,
+      type,
+      path: rel,
+      stem,
+      basename,
+      ...(out ? { out } : {}),
+      stat: fs.statSync(abs),
+    }
     try {
-      uiCatalog.addFile({
-        contents,
-        type,
-        path: rel,
-        stat: fs.statSync(abs),
-      })
+      uiCatalog.addFile(file)
       added += 1
     } catch (err) {
-      try {
-        const basename = path.basename(rel)
-        const dirname = path.dirname(rel)
-        const outPath =
-          type === 'partial'
-            ? undefined
-            : path.posix.join('_', dirname === '.' ? '' : dirname, basename).replace(/\/+/g, '/')
-        uiCatalog.addFile({
-          contents,
-          type,
-          path: rel,
-          ...(outPath ? { out: { path: outPath } } : {}),
-        })
-        added += 1
-      } catch (err2) {
-        const msg = err2.message || err.message || ''
-        if (/duplicate ui file/i.test(msg)) {
-          if (logger.debug) logger.debug(`Skipping duplicate UI asset ${asset.rel}`)
-          continue
-        }
-        if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${msg}`)
+      const msg = err.message || ''
+      if (/duplicate ui file/i.test(msg)) {
+        if (logger.debug) logger.debug(`Skipping duplicate UI asset ${asset.rel}`)
+        continue
       }
+      if (logger.warn) logger.warn(`Failed to add UI asset ${asset.rel}: ${msg}`)
     }
   }
   if (added && logger.info) {
