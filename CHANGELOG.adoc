@@ -1,5 +1,9 @@
 = Changelog
 
+== 2026-09-25 -- mermaid-client-config partial gets stem
+
+* Set `stem` / `basename` when injecting `mermaid-client-config` so `{{> mermaid-client-scripts}}` can include it.
+
 == 2026-09-25 -- Injected UI partials register with Handlebars
 
 * `addUiAssets` sets Vinyl-compatible `stem` / `basename` (and asset `out` paths) so Antora `createPageComposer` can `registerPartial(stem)` for extension-injected `{{> mermaid-client-styles}}` / lightbox partials.

@@ -113,6 +113,8 @@ function register ({ config }) {
           contents: Buffer.from(configHtml, 'utf8'),
           type: 'partial',
           path: 'partials/mermaid-client-config.hbs',
+          stem: 'mermaid-client-config',
+          basename: 'mermaid-client-config.hbs',
         })
       } catch (err) {
         const msg = err.message || ''
