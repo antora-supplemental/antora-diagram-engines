@@ -5,6 +5,7 @@
  * (.adt-mermaid, div.mermaid). SoftNav-safe: rebinds on SoftNav.loaded.
  * Wheel handlers only fire when the pointer is over a diagram or lightbox
  * (does not steal left-nav scroll).
+ * Lightbox: Ctrl/Cmd+wheel (incl. trackpad pinch) zooms; plain wheel pans.
  */
 ;(function (global) {
   'use strict'
@@ -29,6 +30,21 @@
 
   function clamp(n, lo, hi) {
     return Math.min(hi, Math.max(lo, n))
+  }
+
+  function wheelLineScale(e) {
+    if (e.deltaMode === 1) return 16
+    if (e.deltaMode === 2) return global.innerHeight || 800
+    return 1
+  }
+
+  function wheelPixels(e) {
+    var s = wheelLineScale(e)
+    return { x: e.deltaX * s, y: e.deltaY * s }
+  }
+
+  function isWheelZoomGesture(e) {
+    return !!(e.ctrlKey || e.metaKey)
   }
 
   function findFigure(el) {
@@ -181,6 +197,22 @@
       'translate(' + lb.x + 'px,' + lb.y + 'px) scale(' + lb.scale + ')'
   }
 
+  function zoomLightboxBy(factor, cx, cy) {
+    if (!lightbox) return
+    var next = clamp(lightbox.scale * factor, MIN, MAX)
+    if (next === lightbox.scale) return
+    if (typeof cx === 'number' && typeof cy === 'number' && lightbox.stage) {
+      var rect = lightbox.stage.getBoundingClientRect()
+      var px = cx - rect.left - rect.width / 2
+      var py = cy - rect.top - rect.height / 2
+      var k = next / lightbox.scale
+      lightbox.x = px - (px - lightbox.x) * k
+      lightbox.y = py - (py - lightbox.y) * k
+    }
+    lightbox.scale = next
+    applyLightboxTransform()
+  }
+
   function openLightbox(figure) {
     var lb = ensureLightbox()
     var clone = cloneVisual(figure)
@@ -260,8 +292,16 @@
   function onLightboxWheel(e) {
     if (!lightbox || lightbox.root.hidden) return
     e.preventDefault()
-    var factor = e.deltaY < 0 ? STEP : 1 / STEP
-    lightbox.scale = clamp(lightbox.scale * factor, MIN, MAX)
+    if (isWheelZoomGesture(e)) {
+      var pix = wheelPixels(e)
+      var factor = Math.exp(-pix.y * 0.01)
+      if (factor === 1) return
+      zoomLightboxBy(factor, e.clientX, e.clientY)
+      return
+    }
+    var pan = wheelPixels(e)
+    lightbox.x -= pan.x
+    lightbox.y -= pan.y
     applyLightboxTransform()
   }
 

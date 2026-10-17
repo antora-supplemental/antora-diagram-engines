@@ -14,6 +14,8 @@
 * `addUiAssets` sets Vinyl-compatible `stem` / `basename` (and asset `out` paths) so Antora `createPageComposer` can `registerPartial(stem)` for extension-injected `{{> mermaid-client-styles}}` / lightbox partials.
 == Unreleased
 
+* `@antora-supplemental/diagram-lightbox` — lightbox wheel input: Ctrl/Cmd+wheel (incl. trackpad pinch) zooms toward the pointer; plain two-finger scroll / wheel pans. In-article Ctrl/Cmd+wheel behavior unchanged.
+
 * Fix Antora `injectAssets` being ignored: `register(context = {})` made `Function.length === 0`, so the site-generator called `register` with no config. Use `register({ config })` (destructure, no default on the whole param) in `mermaid-client`, `diagram-lightbox`, and the `diagram-engines` bundle — keeps `length === 1` and avoids Antora's named-param path that would pass the generator as arg1 without `.call(this)`.
 * (superseded 2026-09-26) Quiet Duplicate UI file to debug — reverted; WARN again so dual-ship is visible.
 

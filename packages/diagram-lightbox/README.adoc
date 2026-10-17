@@ -16,3 +16,19 @@ antora:
 
 * `{{> diagram-lightbox-styles}}`
 * `{{> diagram-lightbox-scripts}}` (load after SoftNav)
+
+== Pointer / wheel input
+
+In-article figures: Ctrl/Cmd+wheel zooms toward the cursor (trackpad pinch is reported this way on Chromium and most desktop browsers).
+
+Lightbox (open viewer):
+
+* *Pinch / Ctrl+wheel* — zoom toward the pointer (continuous scale from trackpad deltas; mouse wheel still steps smoothly via the same path).
+* *Two-finger scroll / plain wheel* — pan the diagram (`deltaX` / `deltaY`, honoring `deltaMode`).
+* *Drag* — primary-button pan on the stage (unchanged).
+
+Requires a non-passive `wheel` listener on the lightbox (`passive: false`) so the page does not scroll behind the modal.
+
+=== Browser notes
+
+Trackpad pinch is not a separate DOM event on the web; browsers synthesize `wheel` with `ctrlKey` (Windows/Linux Chromium, Firefox, Edge; macOS Chromium/Firefox). Safari on macOS may differ slightly; there is no portable `PointerEvent` pinch for desktop trackpads. Touch-screen pinch would need a separate multi-pointer handler and is not implemented here. OS-level “scroll to zoom the page” still wins when the lightbox is closed.
