@@ -1,7 +1,7 @@
 = @antora-supplemental/diagram-lightbox
 :description: Antora extension injecting diagram zoom / lightbox assets.
 
-Vendored from `antora-ui-chassis/packages/diagram-zoom` patterns.
+Productized from former chassis `diagram-zoom` copy-only assets (chassis package removed; use this extension).
 
 == Require
 

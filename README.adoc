@@ -134,12 +134,12 @@ When both Kroki and mermaid-client are registered, prefer exclusive client Merma
 packages/
   shared/            # private helpers
   mermaid-client/    # Asciidoctor + Antora + ui/
-  diagram-lightbox/  # Antora + ui/ (product name; chassis folder still diagram-zoom)
+  diagram-lightbox/  # Antora + ui/ (replaces removed chassis diagram-zoom copy package)
   diagram-engines/   # meta bundle
 ----
 
 == Related
 
 * Org docs: `diagram-engines` page on antora-supplemental/docs
-* Chassis source: `antora-ui-chassis/packages/diagram-zoom` (product name: diagram-lightbox)
+* Former chassis copy package `diagram-zoom` removed; canonical package is `diagram-lightbox` here.
 * Hub reference: DevCentr `supplemental-ui/js/site-mermaid.js`
