@@ -158,14 +158,17 @@
     return rendering
   }
 
-  function onSoftNavLoaded (fn) {
-    if (window.SoftNav && typeof SoftNav.on === 'function') SoftNav.on('loaded', fn)
-    else document.addEventListener('soft-nav:loaded', function (e) { fn(e.detail || {}) })
+  if (typeof adtChromeBind === 'function') {
+    adtChromeBind({ onBoot: boot, onLoaded: function () { boot() } })
+  } else {
+    function onSoftNavLoaded (fn) {
+      if (window.SoftNav && typeof SoftNav.on === 'function') SoftNav.on('loaded', fn)
+      else document.addEventListener('soft-nav:loaded', function (e) { fn(e.detail || {}) })
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot)
+    else boot()
+    onSoftNavLoaded(function () { boot() })
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot)
-  else boot()
-  onSoftNavLoaded(function () { boot() })
 
   // Re-theme: class toggle (site dark-mode) + prefers-color-scheme
   var lastDark = isDark()

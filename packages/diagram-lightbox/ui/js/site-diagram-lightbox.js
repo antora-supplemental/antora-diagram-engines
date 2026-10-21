@@ -366,8 +366,17 @@
   document.addEventListener('click', onFigureClick)
   document.addEventListener('wheel', onFigureWheel, { passive: false, capture: true })
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot)
-  else boot()
-  onSoftNavLoaded(function () { closeLightbox(); boot() })
+  function bootAfterNav () {
+    closeLightbox()
+    boot()
+  }
+
+  if (typeof adtChromeBind === 'function') {
+    adtChromeBind({ onBoot: boot, onLoaded: bootAfterNav })
+  } else {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot)
+    else boot()
+    onSoftNavLoaded(bootAfterNav)
+  }
   global.addEventListener('load', function () { setTimeout(enhanceAll, 400) })
 })(typeof window !== 'undefined' ? window : this)
