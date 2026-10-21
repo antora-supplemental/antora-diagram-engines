@@ -27,6 +27,6 @@
 ** `@antora-supplemental/diagram-lightbox` — Antora UI inject for zoom/lightbox (vendored from antora-ui-chassis `diagram-zoom`; product name lightbox).
 ** `@antora-supplemental/diagram-engines` — optional meta bundle wiring Mermaid client + lightbox defaults.
 ** `@antora-supplemental/diagram-engines-shared` — private workspace helpers.
-* Renamed package `@antora-supplemental/diagram-zoom` → `@antora-supplemental/diagram-lightbox`. Public require/partials/assets use lightbox; chrome CSS classes keep `adt-diagram-zoom` / opt-out `no-diagram-zoom` for pragmatism.
+* Renamed package `@antora-supplemental/diagram-zoom` → `@antora-supplemental/diagram-lightbox`. Public require/partials/assets use lightbox; chrome CSS classes keep `valentus-diagram-zoom` / opt-out `no-diagram-zoom` for pragmatism.
 * PlantUML and other Kroki formats stay on `asciidoctor-kroki` (documented; not auto-rethemed like Mermaid).
 * DevCentr Themed SVG / bake pipeline documented as **live but unmaintained**.

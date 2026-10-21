@@ -16,7 +16,7 @@ const { docAttr, escapeHtml } = require('@antora-supplemental/diagram-engines-sh
 const PACKAGE = '@antora-supplemental/mermaid-client'
 const VERSION = '0.1.0'
 const MERMAID_LANGS = new Set(['mermaid'])
-const CLIENT_ROLES = new Set(['mermaid-client', 'adt-mermaid-client'])
+const CLIENT_ROLES = new Set(['mermaid-client', 'valentus-mermaid-client'])
 
 function isEnabled (doc) {
   if (doc.hasAttribute && doc.hasAttribute('mermaid-client')) {
@@ -96,7 +96,7 @@ function titleHtml (block) {
 
 function buildClientHostHtml (block, source) {
   const id = typeof block.getId === 'function' && block.getId() ? ` id="${escapeHtml(block.getId())}"` : ''
-  const roles = ['listingblock', 'mermaid-client', 'adt-mermaid-client']
+  const roles = ['listingblock', 'mermaid-client', 'valentus-mermaid-client']
   for (const r of blockRoles(block)) {
     if (!roles.includes(r) && r !== 'language-mermaid') roles.push(r)
   }

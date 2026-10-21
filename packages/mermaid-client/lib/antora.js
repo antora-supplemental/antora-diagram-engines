@@ -57,7 +57,7 @@ function buildConfigPartial (cdn) {
   }
   const json = JSON.stringify(payload).replace(/</g, '\\u003c')
   return (
-    `<script type="application/json" id="adt-mermaid-config">${json}</script>\n` +
+    `<script type="application/json" id="valentus-mermaid-config">${json}</script>\n` +
     `<script>window.__ADT_MERMAID__=Object.assign({},window.__ADT_MERMAID__||{},${json});</script>\n`
   )
 }

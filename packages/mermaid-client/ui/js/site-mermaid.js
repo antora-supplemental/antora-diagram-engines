@@ -3,7 +3,7 @@
  * Supports [source,mermaid], [.mermaid-client], pre.mermaid hosts.
  * Re-renders on dark-theme / prefers-color-scheme changes (no dual SVG forks).
  *
- * Config via window.__ADT_MERMAID__ or #adt-mermaid-config JSON:
+ * Config via window.__ADT_MERMAID__ or #valentus-mermaid-config JSON:
  *   { mode: 'cdn'|'local', cdn: 'https://…/mermaid.min.js', localScript: 'js/vendor/…' }
  */
 ;(function () {
@@ -13,7 +13,7 @@
 
   function readConfig () {
     var cfg = Object.assign({ mode: 'cdn', cdn: DEFAULT_CDN, localScript: null }, window.__ADT_MERMAID__ || {})
-    var el = document.getElementById('adt-mermaid-config')
+    var el = document.getElementById('valentus-mermaid-config')
     if (el && el.textContent) {
       try { Object.assign(cfg, JSON.parse(el.textContent)) } catch (_) {}
     }
@@ -46,12 +46,12 @@
     document.querySelectorAll('code.language-mermaid, code[data-lang="mermaid"]').forEach(function (code) {
       add(code.closest('.listingblock') || code.parentElement, code.textContent || '')
     })
-    document.querySelectorAll('.listingblock.mermaid-client, .listingblock.adt-mermaid-client').forEach(function (block) {
+    document.querySelectorAll('.listingblock.mermaid-client, .listingblock.valentus-mermaid-client').forEach(function (block) {
       var pre = block.querySelector('pre')
       add(block, (pre && pre.textContent) || block.textContent || '')
     })
     document.querySelectorAll('pre.mermaid, .mermaid-source').forEach(function (pre) {
-      if (pre.closest('.adt-mermaid') && pre.closest('.adt-mermaid').getAttribute('data-mermaid-rendered') === '1') return
+      if (pre.closest('.valentus-mermaid') && pre.closest('.valentus-mermaid').getAttribute('data-mermaid-rendered') === '1') return
       add(pre.closest('.listingblock') || pre, pre.textContent || '')
     })
     document.querySelectorAll('.listingblock > .content > pre').forEach(function (pre) {
@@ -61,7 +61,7 @@
       add(pre.closest('.listingblock'), text)
     })
     // Already-mounted hosts (re-theme path)
-    document.querySelectorAll('.adt-mermaid[data-mermaid-source]').forEach(function (host) {
+    document.querySelectorAll('.valentus-mermaid[data-mermaid-source]').forEach(function (host) {
       if (seen.has(host)) return
       seen.add(host)
       nodes.push({ block: host, text: host.getAttribute('data-mermaid-source') || '', remount: false })
@@ -70,14 +70,14 @@
   }
 
   function mountDiagram (block, text, index) {
-    if (block.classList && block.classList.contains('adt-mermaid') && block.getAttribute('data-mermaid-source')) {
+    if (block.classList && block.classList.contains('valentus-mermaid') && block.getAttribute('data-mermaid-source')) {
       block.removeAttribute('data-processed')
       block.removeAttribute('data-mermaid-rendered')
       block.textContent = text
       return block
     }
     var host = document.createElement('div')
-    host.className = 'mermaid adt-mermaid'
+    host.className = 'mermaid valentus-mermaid'
     host.setAttribute('data-mermaid-index', String(index))
     host.setAttribute('data-mermaid-source', text)
     host.textContent = text
@@ -115,7 +115,7 @@
         resolve(window.mermaid)
         return
       }
-      var existing = document.querySelector('script[data-adt-mermaid]')
+      var existing = document.querySelector('script[data-valentus-mermaid]')
       if (existing) {
         existing.addEventListener('load', function () { resolve(window.mermaid) })
         existing.addEventListener('error', reject)
@@ -153,13 +153,13 @@
   function boot () {
     if (rendering) return rendering
     rendering = renderAll()
-      .catch(function (err) { console.warn('[adt-mermaid]', err) })
+      .catch(function (err) { console.warn('[valentus-mermaid]', err) })
       .finally(function () { rendering = null })
     return rendering
   }
 
-  if (typeof adtChromeBind === 'function') {
-    adtChromeBind({ onBoot: boot, onLoaded: function () { boot() } })
+  if (typeof bindSoftNavContext === 'function') {
+    bindSoftNavContext({ onBoot: boot, onLoaded: function () { boot() } })
   } else {
     function onSoftNavLoaded (fn) {
       if (window.SoftNav && typeof SoftNav.on === 'function') SoftNav.on('loaded', fn)
@@ -176,7 +176,7 @@
     var next = isDark()
     if (next === lastDark) return
     lastDark = next
-    document.querySelectorAll('.adt-mermaid[data-mermaid-source]').forEach(function (host) {
+    document.querySelectorAll('.valentus-mermaid[data-mermaid-source]').forEach(function (host) {
       host.removeAttribute('data-mermaid-rendered')
       host.removeAttribute('data-processed')
     })

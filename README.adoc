@@ -112,7 +112,7 @@ antora:
 | `cdn: false` + `localScript: 'js/vendor/mermaid.min.js'`. Place `mermaid.min.js` in hub `supplemental-ui/js/vendor/` (or matching uiRootPath). This package does **not** vendor Mermaid by default.
 |===
 
-Runtime config is also exposed as `window.__ADT_MERMAID__` / `#adt-mermaid-config` (injected partial).
+Runtime config is also exposed as `window.__ADT_MERMAID__` / `#valentus-mermaid-config` (injected partial).
 
 == Author how-to (3 bullets)
 

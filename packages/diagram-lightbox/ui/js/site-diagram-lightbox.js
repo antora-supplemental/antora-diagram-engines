@@ -2,7 +2,7 @@
  * Diagram zoom / pan / lightbox for Antora article figures.
  *
  * Enhances baked SVG imageblocks (.imageblock) and client Mermaid hosts
- * (.adt-mermaid, div.mermaid). SoftNav-safe: rebinds on SoftNav.loaded.
+ * (.valentus-mermaid, div.mermaid). SoftNav-safe: rebinds on SoftNav.loaded.
  * Wheel handlers only fire when the pointer is over a diagram or lightbox
  * (does not steal left-nav scroll).
  * Lightbox: Ctrl/Cmd+wheel (incl. trackpad pinch) zooms; plain wheel pans.
@@ -10,12 +10,12 @@
 ;(function (global) {
   'use strict'
 
-  var ATTR = 'data-adt-diagram-zoom'
+  var ATTR = 'data-valentus-diagram-zoom'
   var STEP = 1.25
   var MIN = 0.5
   var MAX = 8
   var SELECTOR =
-    '.doc .imageblock, .doc .adt-mermaid, .doc div.mermaid:not(.adt-mermaid)'
+    '.doc .imageblock, .doc .valentus-mermaid, .doc div.mermaid:not(.valentus-mermaid)'
 
   var lightbox = null
   var lastFocus = null
@@ -81,10 +81,10 @@
   function ensureChrome(figure) {
     if (figure.getAttribute(ATTR) === '1') return figure._adtZoom
     figure.setAttribute(ATTR, '1')
-    figure.classList.add('adt-diagram-zoom')
+    figure.classList.add('valentus-diagram-zoom')
 
     var viewport = document.createElement('div')
-    viewport.className = 'adt-diagram-zoom__viewport'
+    viewport.className = 'valentus-diagram-zoom__viewport'
     var pending = Array.prototype.slice.call(figure.childNodes)
     pending.forEach(function (node) {
       if (node.nodeType === 1 && node.classList && node.classList.contains('title')) return
@@ -93,14 +93,14 @@
     figure.insertBefore(viewport, figure.firstChild)
 
     var toolbar = document.createElement('div')
-    toolbar.className = 'adt-diagram-zoom__toolbar'
+    toolbar.className = 'valentus-diagram-zoom__toolbar'
     toolbar.setAttribute('role', 'toolbar')
     toolbar.setAttribute('aria-label', 'Diagram zoom')
 
     function btn(action, label, text) {
       var b = document.createElement('button')
       b.type = 'button'
-      b.className = 'adt-diagram-zoom__btn'
+      b.className = 'valentus-diagram-zoom__btn'
       b.dataset.adtZoom = action
       b.setAttribute('aria-label', label)
       b.title = label
@@ -155,30 +155,30 @@
   function ensureLightbox() {
     if (lightbox) return lightbox
     var root = document.createElement('div')
-    root.className = 'adt-diagram-lightbox'
+    root.className = 'valentus-diagram-lightbox'
     root.hidden = true
     root.setAttribute('role', 'dialog')
     root.setAttribute('aria-modal', 'true')
     root.setAttribute('aria-label', 'Diagram viewer')
     root.innerHTML =
-      '<div class="adt-diagram-lightbox__backdrop" data-adt-lb="close"></div>' +
-      '<div class="adt-diagram-lightbox__panel">' +
-      '<div class="adt-diagram-lightbox__toolbar" role="toolbar" aria-label="Diagram viewer controls">' +
-      '<button type="button" class="adt-diagram-zoom__btn" data-adt-lb="in" aria-label="Zoom in" title="Zoom in">+</button>' +
-      '<button type="button" class="adt-diagram-zoom__btn" data-adt-lb="out" aria-label="Zoom out" title="Zoom out">\u2212</button>' +
-      '<button type="button" class="adt-diagram-zoom__btn" data-adt-lb="reset" aria-label="Reset zoom" title="Reset zoom">1:1</button>' +
-      '<button type="button" class="adt-diagram-zoom__btn adt-diagram-lightbox__close" data-adt-lb="close" aria-label="Close diagram viewer" title="Close (Esc)">\u00d7</button>' +
+      '<div class="valentus-diagram-lightbox__backdrop" data-valentus-lb="close"></div>' +
+      '<div class="valentus-diagram-lightbox__panel">' +
+      '<div class="valentus-diagram-lightbox__toolbar" role="toolbar" aria-label="Diagram viewer controls">' +
+      '<button type="button" class="valentus-diagram-zoom__btn" data-valentus-lb="in" aria-label="Zoom in" title="Zoom in">+</button>' +
+      '<button type="button" class="valentus-diagram-zoom__btn" data-valentus-lb="out" aria-label="Zoom out" title="Zoom out">\u2212</button>' +
+      '<button type="button" class="valentus-diagram-zoom__btn" data-valentus-lb="reset" aria-label="Reset zoom" title="Reset zoom">1:1</button>' +
+      '<button type="button" class="valentus-diagram-zoom__btn valentus-diagram-lightbox__close" data-valentus-lb="close" aria-label="Close diagram viewer" title="Close (Esc)">\u00d7</button>' +
       '</div>' +
-      '<div class="adt-diagram-lightbox__stage" tabindex="-1">' +
-      '<div class="adt-diagram-lightbox__canvas"></div>' +
+      '<div class="valentus-diagram-lightbox__stage" tabindex="-1">' +
+      '<div class="valentus-diagram-lightbox__canvas"></div>' +
       '</div>' +
       '</div>'
     document.body.appendChild(root)
     lightbox = {
       root: root,
-      stage: root.querySelector('.adt-diagram-lightbox__stage'),
-      canvas: root.querySelector('.adt-diagram-lightbox__canvas'),
-      closeBtn: root.querySelector('[data-adt-lb="close"].adt-diagram-lightbox__close'),
+      stage: root.querySelector('.valentus-diagram-lightbox__stage'),
+      canvas: root.querySelector('.valentus-diagram-lightbox__canvas'),
+      closeBtn: root.querySelector('[data-valentus-lb="close"].valentus-diagram-lightbox__close'),
       scale: 1,
       x: 0,
       y: 0,
@@ -224,7 +224,7 @@
     applyLightboxTransform()
     lastFocus = document.activeElement
     lb.root.hidden = false
-    document.documentElement.classList.add('adt-diagram-lightbox-open')
+    document.documentElement.classList.add('valentus-diagram-lightbox-open')
     ;(lb.closeBtn || lb.stage).focus()
   }
 
@@ -232,7 +232,7 @@
     if (!lightbox || lightbox.root.hidden) return
     lightbox.root.hidden = true
     lightbox.canvas.replaceChildren()
-    document.documentElement.classList.remove('adt-diagram-lightbox-open')
+    document.documentElement.classList.remove('valentus-diagram-lightbox-open')
     if (lastFocus && typeof lastFocus.focus === 'function') {
       try { lastFocus.focus() } catch (_) {}
     }
@@ -240,7 +240,7 @@
   }
 
   function onLightboxClick(e) {
-    var action = e.target && e.target.getAttribute && e.target.getAttribute('data-adt-lb')
+    var action = e.target && e.target.getAttribute && e.target.getAttribute('data-valentus-lb')
     if (!action) return
     if (action === 'close') { closeLightbox(); return }
     if (action === 'in') {
@@ -257,7 +257,7 @@
 
   function onLightboxPointerDown(e) {
     if (!lightbox || lightbox.root.hidden) return
-    if (e.target.closest && e.target.closest('.adt-diagram-lightbox__toolbar')) return
+    if (e.target.closest && e.target.closest('.valentus-diagram-lightbox__toolbar')) return
     if (e.button !== 0) return
     e.preventDefault()
     drag = {
@@ -323,12 +323,12 @@
   }
 
   function onFigureClick(e) {
-    var btn = e.target.closest && e.target.closest('[data-adt-zoom]')
+    var btn = e.target.closest && e.target.closest('[data-valentus-zoom]')
     if (!btn) return
     var figure = findFigure(btn)
     if (!figure) return
     var state = ensureChrome(figure)
-    var action = btn.getAttribute('data-adt-zoom')
+    var action = btn.getAttribute('data-valentus-zoom')
     if (action === 'in') zoomBy(state, STEP)
     else if (action === 'out') zoomBy(state, 1 / STEP)
     else if (action === 'reset') resetZoom(state)
@@ -352,7 +352,7 @@
       if (figure.classList.contains('no-diagram-zoom')) return
       if (
         figure.querySelector('img, svg, themed-svg') ||
-        figure.classList.contains('adt-mermaid') ||
+        figure.classList.contains('valentus-mermaid') ||
         figure.classList.contains('mermaid') ||
         (figure.classList.contains('imageblock') && figure.querySelector('.content'))
       ) {
@@ -371,8 +371,8 @@
     boot()
   }
 
-  if (typeof adtChromeBind === 'function') {
-    adtChromeBind({ onBoot: boot, onLoaded: bootAfterNav })
+  if (typeof bindSoftNavContext === 'function') {
+    bindSoftNavContext({ onBoot: boot, onLoaded: bootAfterNav })
   } else {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot)
     else boot()
