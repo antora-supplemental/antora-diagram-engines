@@ -1,5 +1,9 @@
 = Changelog
 
+== 2026-10-25 -- Registry index for the Antora Extensions Registry
+
+* Added `registry-index.json` at the repo root listing `diagram-lightbox` and `mermaid-client` (layer: bolt-on, install from `main` via `&path:`) so the registry imports both packages from this monorepo. Repo topic `antora-extension` added for discovery.
+
 == 2026-09-26 -- Stop quieting duplicate UI inject
 
 * Shared `addUiAssets` (and mermaid-client config partial) again **WARN** on `Duplicate UI file` instead of debug-skip. Hubs should not mirror mermaid/lightbox chrome when extensions inject; use `injectAssets: false` only when the hub intentionally owns the assets.
