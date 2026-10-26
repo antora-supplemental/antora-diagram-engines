@@ -1,6 +1,6 @@
 {
   "name": "@antora-supplemental/mermaid-client",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "description": "Asciidoctor + Antora: Mermaid client-render hosts with CDN runtime and light/dark re-theme",
   "main": "lib/asciidoctor.js",
   "exports": {

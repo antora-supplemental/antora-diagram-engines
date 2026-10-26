@@ -1,5 +1,11 @@
 = Changelog
 
+== 2026-10-26 -- mermaid-client 0.2.2, diagram-lightbox 0.2.2
+
+* `mermaid-client`: the config element is `#valentus-mermaid-config` (renamed from `#adt-mermaid-config` together with the adt-* -> valentus-* class rename). `site-mermaid.js` still reads the legacy `#adt-mermaid-config` id and `window.__ADT_MERMAID__` for hand-authored partials; `window.__VALENTUS_MERMAID__` is accepted as the new global.
+* `diagram-lightbox`: first tagged release with the adt-* -> valentus-* class rename and the Ctrl/Cmd+wheel zoom change.
+* Tags `mermaid-client-v0.2.2` and `diagram-lightbox-v0.2.2`. Pin with `github:antora-supplemental/antora-diagram-engines#<tag>&path:packages/<name>`. (The `-v0.2.0` / `-v0.2.1` tags were pushed before the package.json bump landed; do not pin them.)
+
 == 2026-10-25 -- Registry index for the Antora Extensions Registry
 
 * Added `registry-index.json` at the repo root listing `diagram-lightbox` and `mermaid-client` (layer: bolt-on, install from `main` via `&path:`) so the registry imports both packages from this monorepo. Repo topic `antora-extension` added for discovery.
