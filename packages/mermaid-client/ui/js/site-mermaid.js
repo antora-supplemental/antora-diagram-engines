@@ -3,7 +3,7 @@
  * Supports [source,mermaid], [.mermaid-client], pre.mermaid hosts.
  * Re-renders on dark-theme / prefers-color-scheme changes (no dual SVG forks).
  *
- * Config via window.__ADT_MERMAID__ or #valentus-mermaid-config JSON:
+ * Config via window.__VALENTUS_MERMAID__ (legacy: __ADT_MERMAID__) or the\n * #valentus-mermaid-config JSON element (legacy id #adt-mermaid-config is still read):
  *   { mode: 'cdn'|'local', cdn: 'https://…/mermaid.min.js', localScript: 'js/vendor/…' }
  */
 ;(function () {
@@ -12,8 +12,10 @@
   var DEFAULT_CDN = 'https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js'
 
   function readConfig () {
-    var cfg = Object.assign({ mode: 'cdn', cdn: DEFAULT_CDN, localScript: null }, window.__ADT_MERMAID__ || {})
-    var el = document.getElementById('valentus-mermaid-config')
+    var cfg = Object.assign({ mode: 'cdn', cdn: DEFAULT_CDN, localScript: null }, window.__ADT_MERMAID__ || {}, window.__VALENTUS_MERMAID__ || {})
+    var el =
+      document.getElementById('valentus-mermaid-config') ||
+      document.getElementById('adt-mermaid-config')
     if (el && el.textContent) {
       try { Object.assign(cfg, JSON.parse(el.textContent)) } catch (_) {}
     }
