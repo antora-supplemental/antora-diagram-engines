@@ -1,0 +1,7 @@
+name: antora-diagram-engines
+title: Antora Diagram Engines
+version: ~
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/changelog/nav.adoc

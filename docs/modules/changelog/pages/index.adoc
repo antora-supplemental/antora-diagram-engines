@@ -4,7 +4,7 @@
 
 * `mermaid-client`: the config element is `#valentus-mermaid-config` (renamed from `#adt-mermaid-config` together with the adt-* -> valentus-* class rename). `site-mermaid.js` still reads the legacy `#adt-mermaid-config` id and `window.__ADT_MERMAID__` for hand-authored partials; `window.__VALENTUS_MERMAID__` is accepted as the new global.
 * `diagram-lightbox`: first tagged release with the adt-* -> valentus-* class rename and the Ctrl/Cmd+wheel zoom change.
-* Tags `mermaid-client-v0.2.2` and `diagram-lightbox-v0.2.2`. Pin with `github:antora-supplemental/antora-diagram-engines#<tag>&path:packages/<name>`. (The `-v0.2.0` / `-v0.2.1` tags were pushed before the package.json bump landed; do not pin them.)
+* Tags `mermaid-client-v0.2.2` and `diagram-lightbox-v0.2.2`. Pin with `github:antora-supplemental/antora-diagram-engines#<tag>&path:packages/<name>`.
 
 == 2026-10-25 -- Registry index for the Antora Extensions Registry
 
@@ -24,6 +24,7 @@
 * `addUiAssets` sets Vinyl-compatible `stem` / `basename` (and asset `out` paths) so Antora `createPageComposer` can `registerPartial(stem)` for extension-injected `{{> mermaid-client-styles}}` / lightbox partials.
 == Unreleased
 
+* Docs: new minimal Antora component `antora-diagram-engines` under `docs/` with a `changelog` module. This changelog moved there from the root `CHANGELOG.adoc`. Detail reports go under `changelog-details/history/`. The stray `-v0.2.0` / `-v0.2.1` tags (no releases) were deleted; pin the `-v0.2.2` tags.
 * `@antora-supplemental/diagram-lightbox` — lightbox wheel input: Ctrl/Cmd+wheel (incl. trackpad pinch) zooms toward the pointer; plain two-finger scroll / wheel pans. In-article Ctrl/Cmd+wheel behavior unchanged.
 
 * Fix Antora `injectAssets` being ignored: `register(context = {})` made `Function.length === 0`, so the site-generator called `register` with no config. Use `register({ config })` (destructure, no default on the whole param) in `mermaid-client`, `diagram-lightbox`, and the `diagram-engines` bundle — keeps `length === 1` and avoids Antora's named-param path that would pass the generator as arg1 without `.call(this)`.

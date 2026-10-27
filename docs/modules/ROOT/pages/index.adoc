@@ -1,0 +1,10 @@
+= Antora Diagram Engines
+
+Monorepo of selectable Antora/Asciidoctor diagram-engine extensions:
+
+* `@antora-supplemental/mermaid-client`: client-side Mermaid rendering (`packages/mermaid-client`).
+* `@antora-supplemental/diagram-lightbox`: zoom/pan lightbox for diagrams (`packages/diagram-lightbox`).
+
+Each package is tagged `<package>-vX.Y.Z`. Pin with `github:antora-supplemental/antora-diagram-engines#<tag>&path:packages/<name>`.
+
+See xref:changelog:index.adoc[Changelog] for release history.
